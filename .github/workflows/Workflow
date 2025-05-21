@@ -1,0 +1,108 @@
+name: Dissect.AI CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+      - dev
+  pull_request:
+    branches:
+      - main
+      - dev
+  workflow_dispatch:
+
+jobs:
+  lint:
+    name: Code Linting
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python 3.10
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.10
+
+      - name: Install lint dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install flake8
+
+      - name: Run flake8 linter
+        run: flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+
+  test:
+    name: Run Tests & Coverage
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: [3.9, 3.10, 3.11]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Cache pip dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install pytest pytest-cov
+
+      - name: Run tests with coverage
+        run: |
+          pytest --cov=dissect_ai --cov-report=xml
+
+      - name: Upload coverage report
+        uses: actions/upload-artifact@v3
+        with:
+          name: coverage-report-${{ matrix.python-version }}
+          path: coverage.xml
+
+  deploy:
+    name: Deploy to Production
+    runs-on: ubuntu-latest
+    needs: [lint, test]
+    if: github.ref == 'refs/heads/main' && success()
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Python 3.10
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.10
+
+      - name: Install deployment dependencies
+        run: pip install your-deployment-package  # Replace with your deployment tool e.g. awscli, gcloud, etc.
+
+      - name: Deploy Dissect.AI
+        run: |
+          echo "Deploying Dissect.AI application..."
+          # Insert your deployment commands here
+          # e.g., aws s3 sync, kubectl apply, etc.
+
+      - name: Notify Deployment Success
+        run: echo "Deployment completed successfully."
+
+# Optional: Slack notification step example (uncomment and configure)
+#   notify:
+#     needs: deploy
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: Notify Slack
+#         uses: 8398a7/action-slack@v3
+#         with:
+#           status: ${{ job.status }}
+#           fields: repo,message,commit,author
+#         env:
+#           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
