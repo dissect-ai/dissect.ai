@@ -1,0 +1,68 @@
+# Dissect.AI Supported Funding Platforms Configuration
+
+github:
+  # Up to 4 GitHub Sponsors usernames supporting Dissect.AI
+  # Example: ['dissect-ai-dev', 'ai-researcher']
+  - dissect-ai-dev
+  - ai-researcher
+
+patreon:
+  # Single Patreon username backing Dissect.AI
+  # Example: dissect_ai_supporter
+  dissect_ai_supporter: null
+
+open_collective:
+  # Single Open Collective project name for Dissect.AI funding
+  # Example: dissect-ai-project
+  dissect-ai-project: null
+
+ko_fi:
+  # Single Ko-fi username for Dissect.AI donations
+  # Example: dissectai
+  dissectai: null
+
+tidelift:
+  # Single Tidelift platform/package for Dissect.AI dependencies
+  # Format: platform/package-name, e.g., npm/dissect-ai-core
+  npm/dissect-ai-core: null
+
+community_bridge:
+  # Single Community Bridge project supporting Dissect.AI
+  # Example: dissect-ai-initiative
+  dissect-ai-initiative: null
+
+liberapay:
+  # Single Liberapay username for recurring Dissect.AI support
+  # Example: dissect_ai_team
+  dissect_ai_team: null
+
+issuehunt:
+  # Single IssueHunt username related to Dissect.AI
+  # Example: dissect-ai-bugs
+  dissect-ai-bugs: null
+
+lfx_crowdfunding:
+  # Single LFX Crowdfunding project for Dissect.AI
+  # Example: dissect-ai-crowdfund
+  dissect-ai-crowdfund: null
+
+polar:
+  # Single Polar username for Dissect.AI sponsorship
+  # Example: dissect_ai
+  dissect_ai: null
+
+buy_me_a_coffee:
+  # Single Buy Me a Coffee username supporting Dissect.AI
+  # Example: dissect_ai_support
+  dissect_ai_support: null
+
+thanks_dev:
+  # Single thanks.dev username for Dissect.AI thanks page
+  # Example: dissect_ai_thanks
+  dissect_ai_thanks: null
+
+custom:
+  # Up to 4 custom sponsorship URLs for Dissect.AI funding
+  # Example: ['https://customlink1.com', 'https://customlink2.com']
+  - https://dissectai.com/support
+  - https://patreon.com/dissect_ai_special
